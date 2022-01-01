@@ -11,8 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace backend
+using Agencija.Models;
+
+namespace Agencija
 {
     public class Startup
     {
@@ -26,6 +29,26 @@ namespace backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AgencijaContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("AgencijaCS"));
+            });
+
+            services.AddCors(options => 
+            {
+               options.AddPolicy("CORS", builder => 
+               {
+                   builder.WithOrigins(new string[]
+                   {
+                       "http://localhost:8080",
+                       "https://localhost:8080",
+                       "http://127.0.0.1:8080",
+                       "https://127.0.0.1:8080",
+                   })
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+               }); 
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -45,6 +68,8 @@ namespace backend
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("CORS");
 
             app.UseRouting();
 
