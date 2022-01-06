@@ -8,26 +8,18 @@ namespace Agencija.Models
     [Table("AngazovanSpoj")]
     public class AngazovanSpoj
     {
-        #region Atributi
-
         [Key]
         public int ID { get; set; }
 
         [Required]
         public float Honorar { get; set; }
 
-        #endregion
-
         // ========== Veze ==========
-
-        #region Veze
 
         [Required]
         public ClanPosade ClanPosade { get; set; }
 
         [Required]
         public Krstarenje Krstarenje { get; set; }
-
-        #endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,11 +11,11 @@ namespace Agencija.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AgencijaController : ControllerBase
+    public class SobaController : ControllerBase
     {
         public AgencijaContext Context {get; set;}
 
-        public AgencijaController(AgencijaContext context)
+        public SobaController(AgencijaContext context)
         {
             Context = context;
         }

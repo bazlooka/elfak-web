@@ -8,8 +8,6 @@ namespace Agencija.Models
     [Table("Soba")]
     public class Soba
     {
-        #region Atributi
-
         [Key]
         public int ID { get; set; }
 
@@ -25,17 +23,11 @@ namespace Agencija.Models
         [MaxLength(30)]
         public string Klasa { get; set; }
 
-        #endregion
-
         // ========== Veze ==========
-
-        #region Veze
 
         public List<KrstariSpoj> KrstariSpoj { get; set; }
 
         [Required]
         public Kruzer Kruzer { get; set; }
-
-        #endregion
     }
 }

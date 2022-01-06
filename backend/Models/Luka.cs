@@ -8,8 +8,6 @@ namespace Agencija.Models
     [Table("Luka")]
     public class Luka
     {
-        #region Atributi
-
         [Key]
         public int ID { get; set; }
 
@@ -29,16 +27,15 @@ namespace Agencija.Models
         [MaxLength(30)]
         public string Grad { get; set; }
 
-        #endregion
-
         // ========== Veze ==========
 
-        #region Veze
-
+        [JsonIgnore]
         public List<Krstarenje> PolaznaLukaZa { get; set; }
-        public List<Krstarenje> UsputnaLukaZa { get; set; }
-        public List<Krstarenje> OdredisnaLukaZa { get; set; }
 
-        #endregion
+        [JsonIgnore]
+        public List<Krstarenje> UsputnaLukaZa { get; set; }
+
+        [JsonIgnore]
+        public List<Krstarenje> OdredisnaLukaZa { get; set; }
     }
 }

@@ -7,9 +7,7 @@ namespace Agencija.Models
 {
     [Table("Aktivnost")]
     public class Aktivnost
-    {
-        #region Atributi
-        
+    {       
         [Key]
         public int ID { get; set; }
 
@@ -20,11 +18,7 @@ namespace Agencija.Models
         [Required]
         public float Cena { get; set; }
 
-        #endregion
-
         // ========== Veze ==========
-
-        #region Veze
 
         [Required]
         public Krstarenje Krstarenje { get; set; }
@@ -32,7 +26,5 @@ namespace Agencija.Models
         public List<Putnik> Putinci { get; set; }
 
         public List<ClanPosade> ClanoviPosade { get; set; }
-
-        #endregion
     }
 }

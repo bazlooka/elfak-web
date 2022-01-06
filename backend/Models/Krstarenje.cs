@@ -9,8 +9,6 @@ namespace Agencija.Models
     [Table("Krstarenje")]
     public class Krstarenje
     {
-        #region Atributi
-
         [Key]
         public int ID { get; set; }
 
@@ -22,12 +20,8 @@ namespace Agencija.Models
 
         [Required]
         public DateTime DatumZavrsetka { get; set; }
-        
-        #endregion
 
         // ========== Veze ==========
-
-        #region Veze
 
         [Required]
         public Kruzer Kruzer { get; set; }
@@ -41,7 +35,5 @@ namespace Agencija.Models
         public Luka OdredisnaLuka { get; set; }
 
         public List<Luka> UsputneLuke { get; set; }
-
-        #endregion
     }
 }

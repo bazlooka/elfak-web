@@ -9,8 +9,6 @@ namespace Agencija.Models
     [Table("Putnik")]
     public class Putnik
     {
-        #region Atributi
-
         [Key]
         public int ID { get; set; }
 
@@ -31,16 +29,10 @@ namespace Agencija.Models
 
         public DateTime DatumRodjenja { get; set; }
 
-        #endregion
-
         // ========== Veze ==========
-
-        #region Veze
 
         public List<KrstariSpoj> KrstariSpoj { get; set; }
 
         public List<Aktivnost> Aktivnosti { get; set; }
-
-        #endregion
     }
 }

@@ -1,5 +1,11 @@
-let dg = document.getElementById("testID");
+import { Agencija } from "./Agencija.js";
+import { dodajNoviDiv } from "./helper.js";
 
-dg.onclick = (ev) => {
-  alert("Cyka blat");
-};
+function kreirajAgenciju() {
+  let aContainer = dodajNoviDiv(document.body, "appContainer");
+  let agencija = new Agencija(aContainer);
+  agencija.iscrtajFormu();
+}
+
+kreirajAgenciju();
+//kreirajAgenciju();

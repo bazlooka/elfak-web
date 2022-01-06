@@ -26,7 +26,7 @@ namespace Agencija.Models
         [MaxLength(30)]
         public string Cin { get; set; }
 
-        //Veze
+        // ========== Veze ==========
 
         public List<AngazovanSpoj> AngazovanNa { get; set; }
 

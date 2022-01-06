@@ -1,0 +1,100 @@
+* {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+p {
+  margin: 6pt 0 2pt 0;
+}
+
+/*button {
+  background-color: white;
+  border-color: #b5c4d1;
+  border-radius: 4px;
+  padding: 2pt 4pt 2pt 4pt;
+  color: black;
+  text-align: center;
+}*/
+
+button {
+  margin: 4pt 0 4pt 0;
+  border-radius: 4px;
+  transition-duration: 0.2s;
+  padding: 2pt 6pt 3pt 6pt;
+  color: black;
+  border: 1px solid #555555;
+  font-weight: 500;
+}
+
+button:hover {
+  background-color: #555555;
+  color: white;
+}
+
+.pocetniEkran {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imgPocetak {
+  display: block;
+  margin: 40pt auto 5pt auto;
+  width: auto;
+}
+
+.appContainer {
+  /*border: 1px;
+  border-style: solid;*/
+  align-items: center;
+}
+
+.unosi {
+  /*border: 1px;
+  border-style: solid;*/
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.unos {
+  /*border: 1px;
+  border-style: solid;*/
+  margin: 5px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 6pt;
+  margin-left: 6pt;
+}
+
+.boldiraniTekst {
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2pt;
+  margin-bottom: 10pt;
+}
+
+.dugme {
+  display: block;
+  align-content: center;
+  margin-top: 8pt;
+  margin-bottom: 8pt;
+}
+
+.glavniEditor {
+  /*border: 1px;
+  border-style: solid;*/
+  margin-bottom: 60pt;
+}
+
+.obavestenje {
+  text-align: center;
+  margin-top: 60pt;
+  margin-bottom: 30pt;
+}
