@@ -19,6 +19,7 @@ namespace Agencija.Models
         [Required]
         public ClanPosade ClanPosade { get; set; }
 
+        [JsonIgnore]
         [Required]
         public Krstarenje Krstarenje { get; set; }
     }

@@ -13,6 +13,7 @@ namespace Agencija.Models
 
         public Soba Soba { get; set; }
 
+        [JsonIgnore]
         public Krstarenje Krstarenje { get; set; }
 
         public Putnik Putnik { get; set; }

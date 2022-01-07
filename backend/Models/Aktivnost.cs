@@ -20,6 +20,7 @@ namespace Agencija.Models
 
         // ========== Veze ==========
 
+        [JsonIgnore]
         [Required]
         public Krstarenje Krstarenje { get; set; }
 

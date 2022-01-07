@@ -31,10 +31,37 @@ namespace Agencija.Controllers
                 await Context.Krstarenja.Select(p => 
                     new {
                         ID = p.ID,
-                        Naziv = $"[{p.BrPolaska}] {p.PolaznaLuka.Oznaka} - {p.OdredisnaLuka.Oznaka}  {p.DatumPocetka.ToShortDateString()}"
+                        Naziv = $"[{p.Kruzer.RegBroj}] {p.PolaznaLuka.Oznaka} - {p.OdredisnaLuka.Oznaka}  {p.DatumPocetka.ToShortDateString()}"
                     }).ToListAsync()
             );
         } 
+
+        [Route("Preuzmi/{id}")]
+        [HttpGet]
+        public async Task<ActionResult> PreuzmiKrstarenje(int id) {
+            Krstarenje k = await Context.Krstarenja.FindAsync(id);
+            if(k == null)
+                return BadRequest("Traženo krstarenje ne postoji!");
+            //TODO ovde će sigurno da stvara probleme
+            return Ok(k);
+        }
+
+        [Route("Kreiraj/{idKruzera}")]
+        [HttpPost]
+        public async Task<ActionResult> PreuzmiKrstarenje([FromBody] Krstarenje krstarenje, int idKruzera) {
+            if(krstarenje.DatumZavrsetka < krstarenje.DatumPocetka)
+                return BadRequest("Krstarenje ne može da se završi pre nego što je počelo!");
+            
+            Kruzer kruzer = await Context.Kruzeri.FindAsync(idKruzera);
+            if(kruzer == null)
+                return BadRequest("Izabrani kruzer ne postoji!");
+
+            krstarenje.Kruzer = kruzer;
+
+            Context.Krstarenja.Add(krstarenje);
+            await Context.SaveChangesAsync();
+            return Ok(krstarenje);
+        }
 
 
         [Route("Test")]
@@ -46,7 +73,6 @@ namespace Agencija.Controllers
             for(int i = 0; i < 5; i++)
             {
                 Krstarenje k = new Krstarenje();
-                k.BrPolaska = i;
                 k.DatumPocetka = DateTime.Now;
                 k.DatumZavrsetka = DateTime.Now.AddDays(5);
                 k.Kruzer = kruzer;

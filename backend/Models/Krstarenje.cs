@@ -13,9 +13,6 @@ namespace Agencija.Models
         public int ID { get; set; }
 
         [Required]
-        public int BrPolaska { get; set; }
-
-        [Required]
         public DateTime DatumPocetka { get; set; }
 
         [Required]
@@ -23,7 +20,6 @@ namespace Agencija.Models
 
         // ========== Veze ==========
 
-        [Required]
         public Kruzer Kruzer { get; set; }
 
         public List<AngazovanSpoj> ClanoviPosade { get; set; }

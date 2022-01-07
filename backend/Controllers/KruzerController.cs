@@ -93,6 +93,20 @@ namespace Agencija.Controllers
             return Ok(kruzeri);
          }
 
+        [Route("PreuzmiListu")]
+        [HttpGet]
+        public async Task<ActionResult> PreuzmiListu()
+        {      
+            return Ok
+            (
+                await Context.Kruzeri.Select(p => 
+                    new {
+                        ID = p.ID,
+                        Naziv = $"[{p.RegBroj}] {p.NazivBroda} - {p.GodinaProizvodnje}"
+                    }).ToListAsync()
+            );
+        } 
+
         [Route("Obrisi/{regBroj}")]
         [HttpDelete]
         public async Task<ActionResult> ObrisiKruzer(string regBroj)

@@ -33,6 +33,7 @@ namespace Agencija.Models
 
         // ========== Veze ==========
 
+        [JsonIgnore]
         public List<Krstarenje> Krstarenja { get; set; }
 
         public List<Soba> Sobe { get; set; }
