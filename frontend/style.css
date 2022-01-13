@@ -2,26 +2,33 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+:root {
+  --sirinaBroda: 800pt;
+}
+
 body {
   overflow-y: scroll;
 }
 
 h1 {
-  text-align: center;
+  font-size: 2em;
 }
 
-p {
+h1,
+h2,
+h3 {
+  text-align: center;
+  margin-top: 20pt;
+}
+
+p,
+label {
   margin: 6pt 0 2pt 0;
 }
 
-/*button {
-  background-color: white;
-  border-color: #b5c4d1;
-  border-radius: 4px;
-  padding: 2pt 4pt 2pt 4pt;
-  color: black;
-  text-align: center;
-}*/
+select {
+  padding: 0 0 1pt 0;
+}
 
 button {
   margin: 4pt 0 4pt 0;
@@ -38,6 +45,15 @@ button:hover {
   color: white;
 }
 
+table {
+  margin: 8pt 16pt 8pt 16pt;
+}
+
+th {
+  border-bottom: solid;
+  border-width: 1px;
+}
+
 .pocetniEkran {
   display: flex;
   flex-direction: column;
@@ -50,17 +66,136 @@ button:hover {
   width: auto;
 }
 
+.izaberiTuru {
+  margin: 0 0 20pt 0;
+}
+
+.izaberiTuru > * {
+  margin: 0 4pt 0 4pt;
+}
+
 .appContainer {
-  /*border: 1px;
-  border-style: solid;*/
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+.glavniEditor {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 60pt;
+}
+
+.prikazLukaForma {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.prikazLukaContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  align-content: center;
+}
+
+.prikazLukaElement {
+  width: 60pt;
+  align-items: center;
+  text-align: center;
+}
+
+.prikazLukaOblik,
+.prikazLukaStrelica {
+  margin: 10pt 10pt 2pt 10pt;
+  width: 40pt;
+}
+
+.prikazLukaOblik:hover,
+.prikazSobe:hover {
+  background-color: #dbdbdb;
+}
+
+.radioBoxUnosLuka {
+  margin: 10pt 0 12pt 0;
+}
+
+/* Podesavanja broda */
+
+.prikazBrodaForma {
+  display: flex;
+  flex-direction: column;
+}
+
+.prikazBrodaContainer {
+  display: flex;
+  background-image: url("./assets/brod.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: var(--sirinaBroda);
+  height: calc(var(--sirinaBroda) * 0.285);
+}
+
+.prikazSobaContainer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.prikazSobaRed {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-left: 8pt;
+  margin-right: 8pt;
+}
+
+.prikazSobe {
+  flex-grow: 1;
+  border-style: groove;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  text-align: center;
+}
+
+.prikazPosadeContainer {
+  flex-grow: 1;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.imgBrod {
+  display: block;
+  width: 40%;
+}
+
+.redISoba {
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
+}
+
+.redISoba div {
+  flex-grow: 1;
+}
+
+.prikazPosade * {
+  text-align: center;
+}
+
+.selektujAktivnost * {
+  display: block;
+  margin: auto;
+}
+
+/* Unosi podataka */
+
 .unosi {
-  /*border: 1px;
-  border-style: solid;*/
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -68,8 +203,6 @@ button:hover {
 }
 
 .unos {
-  /*border: 1px;
-  border-style: solid;*/
   margin: 5px;
   padding: 8px;
   display: flex;
@@ -77,12 +210,27 @@ button:hover {
   justify-content: space-between;
   margin-right: 6pt;
   margin-left: 6pt;
+  min-width: 155px;
+}
+
+.unos button {
+  width: 50%;
+  margin-left: auto;
+  display: block;
+}
+
+.unos select {
+  width: 100%;
+}
+
+.unos.justifyStart {
+  justify-content: flex-start;
 }
 
 .boldiraniTekst {
   font-weight: bold;
   text-align: center;
-  margin-top: 2pt;
+  margin-top: 16pt;
   margin-bottom: 10pt;
 }
 
@@ -93,14 +241,43 @@ button:hover {
   margin-bottom: 8pt;
 }
 
-.glavniEditor {
-  /*border: 1px;
-  border-style: solid;*/
-  margin-bottom: 60pt;
-}
-
 .obavestenje {
   text-align: center;
   margin-top: 60pt;
   margin-bottom: 30pt;
+}
+
+.radio {
+  margin: 0 0 0 0;
+}
+
+.radioLabel {
+  margin: 0 8pt 0 2pt;
+}
+
+@media only screen and (max-width: 850pt) {
+  :root {
+    --sirinaBroda: 600pt;
+  }
+  .prikazSobe {
+    font-size: 10pt;
+  }
+}
+
+@media only screen and (max-width: 650pt) {
+  :root {
+    --sirinaBroda: 400pt;
+  }
+  .prikazSobe {
+    font-size: 6pt;
+  }
+}
+
+@media only screen and (max-width: 450pt) {
+  :root {
+    --sirinaBroda: 300pt;
+  }
+  .prikazSobe {
+    font-size: 5pt;
+  }
 }

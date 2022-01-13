@@ -12,10 +12,10 @@ export function iscrtajUnosKruzera(container) {
 
   dodajNoviInput(dodaj, "Broj registracije*:", "regBrojKruzera");
   dodajNoviInput(dodaj, "Naziv broda*:", "nazivKruzera");
-  dodajNoviInput(dodaj, "Broj soba*:", "brojSobaKruzera", "number");
   dodajNoviInput(dodaj, "Broj redova*:", "brojRedovaKruzera", "number");
-  dodajNoviInput(dodaj, "Godina proizvodnje:", "godisteKruzera", "number");
-  dodajNoviInput(dodaj, "Prevoznik:", "prevoznikKruzera");
+  dodajNoviInput(dodaj, "Broj soba po redu*:", "brojSobaKruzera", "number");
+  dodajNoviInput(dodaj, "Cena noćenja*:", "cenaNocenjaKruzera", "number");
+  dodajNoviInput(dodaj, "Kapacitet soba*:", "kapacitetSobaKruzera", "number");
 
   let btn = document.createElement("button");
   btn.innerHTML = "Dodaj";
@@ -47,12 +47,18 @@ export function iscrtajUnosKruzera(container) {
 
 function dodajNoviKruzer(container) {
   let kruzer = ucitajPodatkeIzInputa(container);
-  dodajNoviUnos(kruzer, "Kruzer", container);
+  const paramString = "/" + kruzer.cenaNocenja + "/" + kruzer.kapacitetSoba;
+  kruzer.cenaNocenja = undefined;
+  kruzer.kapacitetSoba = undefined;
+  dodajNoviUnos(kruzer, "Kruzer", container, paramString);
 }
 
 function izmeniKruzer(container) {
   let kruzer = ucitajPodatkeIzInputa(container);
-  izmeniUnos(kruzer, "Kruzer", container);
+  const paramString = "/" + kruzer.cenaNocenja + "/" + kruzer.kapacitetSoba;
+  kruzer.cenaNocenja = undefined;
+  kruzer.kapacitetSoba = undefined;
+  izmeniUnos(kruzer, "Kruzer", container, paramString);
 }
 
 function obrisiKruzer(container) {
@@ -69,13 +75,13 @@ function obrisiKruzer(container) {
 }
 
 function ucitajPodatkeIzInputa(kontejner) {
-  let k = new Kruzer();
+  let k = new Object();
   k.regBroj = kontejner.querySelector(".regBrojKruzera").value;
   k.nazivBroda = kontejner.querySelector(".nazivKruzera").value;
-  k.brojSoba = kontejner.querySelector(".brojSobaKruzera").value;
+  k.brojSobaPoRedu = kontejner.querySelector(".brojSobaKruzera").value;
   k.brojRedova = kontejner.querySelector(".brojRedovaKruzera").value;
-  k.godinaProizvodnje = kontejner.querySelector(".godisteKruzera").value;
-  k.prevoznik = kontejner.querySelector(".prevoznikKruzera").value;
+  k.cenaNocenja = kontejner.querySelector(".cenaNocenjaKruzera").value;
+  k.kapacitetSoba = kontejner.querySelector(".kapacitetSobaKruzera").value;
 
   if (k.regBroj == undefined || k.regBroj.length < 1) {
     alert("Morate uneti registracioni broj!");
@@ -90,9 +96,9 @@ function ucitajPodatkeIzInputa(kontejner) {
     return;
   }
   if (
-    k.brojSoba == undefined ||
-    parseInt(k.brojSoba, 10) < 1 ||
-    parseInt(k.brojSoba, 10) > 200
+    k.brojSobaPoRedu == undefined ||
+    parseInt(k.brojSobaPoRedu, 10) < 1 ||
+    parseInt(k.brojSobaPoRedu, 10) > 200
   ) {
     alert(
       "Broj soba nije unet ispravno! Minimalan broj soba je 1, a maksimalan 200."
@@ -109,17 +115,20 @@ function ucitajPodatkeIzInputa(kontejner) {
     );
     return;
   }
-  if (parseInt(k.brojRedova, 10) > parseInt(k.brojSoba, 10)) {
+  if (parseInt(k.brojRedova, 10) > parseInt(k.brojSobaPoRedu, 10)) {
     alert("Broj redova ne može da bude veći od broja soba!");
     return;
   }
-  if (k.godinaProizvodnje > new Date().getFullYear()) {
-    alert("Godina proizvodnje nije ispravna");
+
+  if (k.cenaNocenja == undefined || k.cenaNocenja <= 0) {
+    alert("Cena noćenja nije uneta pravilno!");
     return;
   }
-  if (k.prevoznik != undefined && k.prevoznik.length > 30) {
-    alert("Naziv prevoznika nije ispravan!");
+
+  if (k.kapacitetSoba == undefined || k.kapacitetSoba <= 0) {
+    alert("Kapacitet soba nije unet pravilno!");
     return;
   }
+
   return k;
 }

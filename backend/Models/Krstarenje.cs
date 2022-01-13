@@ -24,6 +24,9 @@ namespace Agencija.Models
 
         public List<AngazovanSpoj> ClanoviPosade { get; set; }
 
+        [JsonIgnore]
+        public List<KrstariSpoj> KrstariSpojevi { get; set; }
+
         public List<Aktivnost> Aktivnosti { get; set; }
 
         public Luka PolaznaLuka { get; set; }

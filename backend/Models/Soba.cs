@@ -20,13 +20,12 @@ namespace Agencija.Models
         [Required]
         public int Kapacitet { get; set; } 
 
-        [MaxLength(30)]
-        public string Klasa { get; set; }
-
         // ========== Veze ==========
 
+        
         public List<KrstariSpoj> KrstariSpoj { get; set; }
 
+        [JsonIgnore]
         [Required]
         public Kruzer Kruzer { get; set; }
     }

@@ -4,14 +4,16 @@ using Agencija.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(AgencijaContext))]
-    partial class AgencijaContextModelSnapshot : ModelSnapshot
+    [Migration("20220109213743_V3")]
+    partial class V3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,8 +176,15 @@ namespace backend.Migrations
                     b.Property<int>("BrojSobaPoRedu")
                         .HasColumnType("int");
 
+                    b.Property<int>("GodinaProizvodnje")
+                        .HasColumnType("int");
+
                     b.Property<string>("NazivBroda")
                         .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Prevoznik")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
@@ -378,7 +387,7 @@ namespace backend.Migrations
             modelBuilder.Entity("Agencija.Models.KrstariSpoj", b =>
                 {
                     b.HasOne("Agencija.Models.Krstarenje", "Krstarenje")
-                        .WithMany("KrstariSpojevi")
+                        .WithMany()
                         .HasForeignKey("KrstarenjeID");
 
                     b.HasOne("Agencija.Models.Putnik", "Putnik")
@@ -462,8 +471,6 @@ namespace backend.Migrations
                     b.Navigation("Aktivnosti");
 
                     b.Navigation("ClanoviPosade");
-
-                    b.Navigation("KrstariSpojevi");
                 });
 
             modelBuilder.Entity("Agencija.Models.Kruzer", b =>

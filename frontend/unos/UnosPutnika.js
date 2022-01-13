@@ -16,7 +16,7 @@ export function iscrtajUnosPutnika(container) {
 
   let divRb = document.createElement("div");
 
-  let labela = document.createElement("label");
+  let labela = document.createElement("p");
   labela.innerHTML = "Pol*:";
   divRb.appendChild(labela);
   dodaj.appendChild(divRb);
@@ -25,20 +25,24 @@ export function iscrtajUnosPutnika(container) {
 
   let opcija = document.createElement("input");
   opcija.type = "radio";
+  opcija.className = "radio";
   opcija.name = "noviPutnikPol";
   opcija.value = "m";
 
   labela = document.createElement("label");
   labela.innerHTML = "M";
+  labela.className = "radioLabel";
   divRb.appendChild(opcija);
   divRb.appendChild(labela);
 
   opcija = document.createElement("input");
   opcija.type = "radio";
+  opcija.className = "radio";
   opcija.name = "noviPutnikPol";
   opcija.value = "z";
 
   labela = document.createElement("label");
+  labela.className = "radioLabel";
   labela.innerHTML = "Ž";
 
   divRb.appendChild(opcija);

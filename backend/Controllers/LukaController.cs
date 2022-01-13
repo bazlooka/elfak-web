@@ -66,6 +66,15 @@ namespace Agencija.Controllers
             }
         }
 
+        [Route("Preuzmi/{id}")]
+        [HttpGet]
+        public async Task<ActionResult> PreuzmiKrstarenje(int id) {
+            Luka l = await Context.Luke.FindAsync(id);
+            if(l == null)
+                return BadRequest("Tražena luka ne postoji!");
+            return Ok(l);
+        }
+
         [Route("PreuzmiSve")]
         [HttpGet]
         public async Task<ActionResult> PreuzmiLuke()
@@ -73,6 +82,20 @@ namespace Agencija.Controllers
             var luke = await Context.Luke.ToListAsync();
             return Ok(luke);
          }
+
+        [Route("PreuzmiListu")]
+        [HttpGet]
+        public async Task<ActionResult> PreuzmiListu()
+        {      
+            return Ok
+            (
+                await Context.Luke.Select(p => 
+                    new {
+                        ID = p.ID,
+                        Naziv = $"[{p.Oznaka}] {p.Naziv} - {p.Grad}"
+                    }).ToListAsync()
+            );
+        } 
 
         [Route("Obrisi/{oznaka}")]
         [HttpDelete]

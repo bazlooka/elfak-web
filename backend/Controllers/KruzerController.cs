@@ -21,17 +21,13 @@ namespace Agencija.Controllers
             Context = context;
         }
 
-        [Route("Dodaj")]
+        [Route("Dodaj/{cenaNocenja}/{kapacitetSoba}")]
         [HttpPost]
-        public async Task<ActionResult> DodajKruzer([FromBody] Kruzer kruzer)
+        public async Task<ActionResult> DodajKruzer([FromBody] Kruzer kruzer, float cenaNocenja, int kapacitetSoba)
         {
-            if(kruzer.BrojRedova > kruzer.BrojSoba)
+            if(kruzer.BrojRedova > kruzer.BrojSobaPoRedu)
             {
                 return BadRequest("Broj redova ne može biti veći od broja soba!");
-            }
-            if(kruzer.GodinaProizvodnje < 1900 && kruzer.GodinaProizvodnje > DateTime.Now.Year)
-            {
-                return BadRequest("Godina proizvodnje nije ispravna!");
             }
 
             try
@@ -39,6 +35,18 @@ namespace Agencija.Controllers
                 var uBazi = Context.Kruzeri.Where(p => p.RegBroj == kruzer.RegBroj);
                 if(uBazi.Count() > 0)
                     return BadRequest("Kruzer koji pokušavate da kreirate već postoji!");
+
+                List<Soba> sobe = new List<Soba>(kruzer.BrojRedova * kruzer.BrojSobaPoRedu);
+                for(int i = 1; i <= kruzer.BrojRedova * kruzer.BrojSobaPoRedu; i++)
+                {
+                    Soba s = new Soba();
+                    s.Broj = i;
+                    s.CenaNocenja = cenaNocenja;
+                    s.Kapacitet = kapacitetSoba;
+                    sobe.Add(s);
+                }
+
+                kruzer.Sobe = sobe;
 
                 Context.Kruzeri.Add(kruzer);
                 await Context.SaveChangesAsync();
@@ -54,13 +62,9 @@ namespace Agencija.Controllers
         [HttpPut]
         public async Task<ActionResult> IzmeniKruzer([FromBody] Kruzer kruzer)
         {
-            if(kruzer.BrojRedova > kruzer.BrojSoba)
+            if(kruzer.BrojRedova > kruzer.BrojSobaPoRedu)
             {
                 return BadRequest("Broj redova ne može biti veći od broja soba!");
-            }
-            if(kruzer.GodinaProizvodnje < 1900 && kruzer.GodinaProizvodnje > DateTime.Now.Year)
-            {
-                return BadRequest("Godina proizvodnje nije ispravna!");
             }
 
             try
@@ -72,10 +76,8 @@ namespace Agencija.Controllers
                     return BadRequest("Kruzer koji pokušavate da izmenite ne postoji!");
 
                 kruzerUBazi.NazivBroda = kruzer.NazivBroda;
-                kruzerUBazi.BrojSoba = kruzer.BrojSoba;
+                kruzerUBazi.BrojSobaPoRedu = kruzer.BrojSobaPoRedu;
                 kruzerUBazi.BrojRedova = kruzer.BrojRedova;
-                kruzerUBazi.GodinaProizvodnje = kruzer.GodinaProizvodnje;
-                kruzerUBazi.Prevoznik = kruzer.Prevoznik;
                 await Context.SaveChangesAsync();
                 return Ok($"Kruzer {kruzerUBazi.RegBroj} je uspešno izmenjen!");      
             }
@@ -89,7 +91,7 @@ namespace Agencija.Controllers
         [HttpGet]
         public async Task<ActionResult> PreuzmiKruzere()
         {
-            var kruzeri = await Context.Kruzeri.ToListAsync();
+            var kruzeri = await Context.Kruzeri.Include(p => p.Sobe).ToListAsync();
             return Ok(kruzeri);
          }
 
@@ -102,7 +104,7 @@ namespace Agencija.Controllers
                 await Context.Kruzeri.Select(p => 
                     new {
                         ID = p.ID,
-                        Naziv = $"[{p.RegBroj}] {p.NazivBroda} - {p.GodinaProizvodnje}"
+                        Naziv = $"[{p.RegBroj}] {p.NazivBroda} - {p.BrojRedova} x {p.BrojSobaPoRedu}"
                     }).ToListAsync()
             );
         } 

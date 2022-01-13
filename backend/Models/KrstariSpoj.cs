@@ -11,11 +11,15 @@ namespace Agencija.Models
         [Key]
         public int ID { get; set; }
 
+        public int SobaId { get; set; }
+
+        [JsonIgnore]
         public Soba Soba { get; set; }
 
         [JsonIgnore]
         public Krstarenje Krstarenje { get; set; }
 
+        public int PutnikId { get; set; }
         public Putnik Putnik { get; set; }
     }
 }

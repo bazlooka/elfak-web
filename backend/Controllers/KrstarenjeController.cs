@@ -31,7 +31,7 @@ namespace Agencija.Controllers
                 await Context.Krstarenja.Select(p => 
                     new {
                         ID = p.ID,
-                        Naziv = $"[{p.Kruzer.RegBroj}] {p.PolaznaLuka.Oznaka} - {p.OdredisnaLuka.Oznaka}  {p.DatumPocetka.ToShortDateString()}"
+                        Naziv = $"[{p.Kruzer.RegBroj}] {p.DatumPocetka.ToString("dd.MM.yyyy.")}  -  {p.PolaznaLuka.Oznaka} -> {p.OdredisnaLuka.Oznaka}"
                     }).ToListAsync()
             );
         } 
@@ -39,10 +39,19 @@ namespace Agencija.Controllers
         [Route("Preuzmi/{id}")]
         [HttpGet]
         public async Task<ActionResult> PreuzmiKrstarenje(int id) {
-            Krstarenje k = await Context.Krstarenja.FindAsync(id);
+            Krstarenje k = await Context.Krstarenja.Where(p => p.ID == id)
+                                                .Include(p => p.Kruzer)
+                                                    .ThenInclude(p => p.Sobe.OrderBy(p => p.Broj))
+                                                    .ThenInclude(p => p.KrstariSpoj.Where(p => p.Krstarenje.ID == id))
+                                                    .ThenInclude(p => p.Putnik)
+                                                .Include(p => p.PolaznaLuka)
+                                                .Include(p => p.OdredisnaLuka)
+                                                .Include(p => p.UsputneLuke)
+                                                .Include(p => p.Aktivnosti)
+                                                .Include(p => p.ClanoviPosade)
+                                                .FirstOrDefaultAsync();
             if(k == null)
                 return BadRequest("Traženo krstarenje ne postoji!");
-            //TODO ovde će sigurno da stvara probleme
             return Ok(k);
         }
 
@@ -63,23 +72,52 @@ namespace Agencija.Controllers
             return Ok(krstarenje);
         }
 
-
-        [Route("Test")]
-        [HttpGet]
-        public ActionResult Test()
+        [Route("PostaviLuke/{idKrstarenja}")]
+        [HttpPut]
+        public async Task<ActionResult> PostaviLuke(int idKrstarenja, [FromQuery] int? idPolazneLuke, 
+        [FromQuery] int? idOdredisneLuke, [FromQuery] int[] idUsputneLuke)
         {
-            Kruzer kruzer = Context.Kruzeri.Where(p => p.ID == 1).FirstOrDefault();
+            Krstarenje krstarenje = await Context.Krstarenja
+                                            .Include(p => p.PolaznaLuka)
+                                            .Include(p => p.UsputneLuke)
+                                            .Include(p => p.OdredisnaLuka)
+                                            .FirstOrDefaultAsync(p => p.ID == idKrstarenja);
+            Luka polaznaLuka = null;
+            Luka odredisnaLuka = null;
+            List<Luka> usputneLuke = null;
 
-            for(int i = 0; i < 5; i++)
+            if(krstarenje == null)                  
+                return BadRequest("Krstarenje kojem želite da dodate luke ne postoji!");
+            
+            if(idPolazneLuke != null)
             {
-                Krstarenje k = new Krstarenje();
-                k.DatumPocetka = DateTime.Now;
-                k.DatumZavrsetka = DateTime.Now.AddDays(5);
-                k.Kruzer = kruzer;
-                Context.Krstarenja.Add(k);
+                polaznaLuka = await Context.Luke.FindAsync(idPolazneLuke);
+                if(polaznaLuka == null)                  
+                    return BadRequest("Početna luka koju želite da dodate ne postoji!");
             }
-            Context.SaveChanges();
-            return Ok();
-        } 
+
+            if(idOdredisneLuke != null)
+            {
+                odredisnaLuka = await Context.Luke.FindAsync(idOdredisneLuke);
+                if(odredisnaLuka == null)                  
+                    return BadRequest("Odredišna luka koju želite da dodate ne postoji!");
+            }
+            
+            if(idUsputneLuke != null)
+            {
+                usputneLuke = await Context.Luke.Where(p => idUsputneLuke.Contains(p.ID)).ToListAsync();
+
+                if(usputneLuke.Count != idUsputneLuke.Length)
+                    return BadRequest("Neka od usputnih luka koju želite da dodate ne postoji!");
+            }
+            
+            krstarenje.PolaznaLuka = polaznaLuka;
+            krstarenje.OdredisnaLuka = odredisnaLuka;
+            krstarenje.UsputneLuke = usputneLuke;
+            
+            await Context.SaveChangesAsync();
+            return Ok("Luke su uspešno sačuvane!");
+        }
+
     }
 }

@@ -1,8 +1,11 @@
 import { ADR_SERVERA } from "../helper.js";
 
-export function dodajNoviUnos(unos, nazivEntiteta, container) {
+export function dodajNoviUnos(unos, nazivEntiteta, container, params) {
+  let paramString = "";
+  if (params != undefined) paramString = params;
+
   if (unos != undefined) {
-    fetch(ADR_SERVERA + nazivEntiteta + "/Dodaj", {
+    fetch(ADR_SERVERA + nazivEntiteta + "/Dodaj" + paramString, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -19,9 +22,12 @@ export function dodajNoviUnos(unos, nazivEntiteta, container) {
   }
 }
 
-export function izmeniUnos(unos, nazivEntiteta, container) {
+export function izmeniUnos(unos, nazivEntiteta, container, params) {
+  let paramString = "";
+  if (params != undefined) paramString = params;
+
   if (unos != undefined) {
-    fetch(ADR_SERVERA + nazivEntiteta + "/Izmeni", {
+    fetch(ADR_SERVERA + nazivEntiteta + "/Izmeni" + paramString, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

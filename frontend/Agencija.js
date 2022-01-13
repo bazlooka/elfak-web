@@ -1,6 +1,7 @@
 import {
   dodajNoviDiv,
   dodajNoviInput,
+  dodajNoviElement,
   dodajNoviP,
   ADR_SERVERA,
 } from "./helper.js";
@@ -8,7 +9,7 @@ import { iscrtajUnosLuka } from "./unos/UnosLuka.js";
 import { iscrtajUnosKruzera } from "./unos/UnosKruzera.js";
 import { iscrtajUnosPutnika } from "./unos/UnosPutnika.js";
 import { iscrtajUnosClanovaPosada } from "./unos/UnosClanovaPosade.js";
-import { EditorKrstarenja } from "./EditorKrstarenja.js";
+import { EditorKrstarenja } from "./editor/EditorKrstarenja.js";
 
 export class Agencija {
   constructor(container) {
@@ -16,28 +17,36 @@ export class Agencija {
   }
 
   iscrtajFormu() {
-    this.pocetniEkran = dodajNoviDiv(this.container, "pocetniEkran");
-    this.glavniEditor = dodajNoviDiv(this.container, "glavniEditor");
-    this.unosi = dodajNoviDiv(this.container, "unosi");
+    this.pocetniEkran = dodajNoviElement(
+      this.container,
+      "pocetniEkran",
+      "section"
+    );
+    this.glavniEditor = dodajNoviElement(
+      this.container,
+      "glavniEditor",
+      "section"
+    );
+    this.unosi = dodajNoviElement(this.container, "unosi", "section");
 
-    this.iscrtajPocetniEkran(this.pocetniEkran);
+    this.iscrtajPocetniEkran();
     this.zatvoriUnose();
   }
 
-  iscrtajPocetniEkran(kontejner) {
+  iscrtajPocetniEkran() {
     const pic = document.createElement("img");
     pic.src = "./assets/cruiser.png";
     pic.className = "imgPocetak";
-    kontejner.appendChild(pic);
+    this.pocetniEkran.appendChild(pic);
 
     const naslov = document.createElement("h1");
     naslov.innerHTML = "Agencija za organizovanje krstarenja";
-    kontejner.appendChild(naslov);
+    this.pocetniEkran.appendChild(naslov);
 
     let a = document.createElement("p");
     a.innerHTML = "Za početak, izaberite postojeću turu ili kreirajte novu:";
     a.className = "obavestenje";
-    kontejner.appendChild(a);
+    this.pocetniEkran.appendChild(a);
 
     let btnDiv = document.createElement("div");
     btnDiv.className = "izaberiTuru";
@@ -55,7 +64,7 @@ export class Agencija {
     };
     btnDiv.appendChild(btn);
 
-    kontejner.appendChild(btnDiv);
+    this.pocetniEkran.appendChild(btnDiv);
 
     fetch(ADR_SERVERA + "Krstarenje/PreuzmiListu").then((p) => {
       p.json().then((json) => {
@@ -73,9 +82,9 @@ export class Agencija {
 
     btn = document.createElement("button");
     btn.innerHTML = "Kreiraj novu";
-    btn.onclick = () => this.iscrtajUnosNovogKrstarenja(kontejner);
+    btn.onclick = () => this.iscrtajUnosNovogKrstarenja(this.pocetniEkran);
     btnDiv.appendChild(btn);
-    kontejner.appendChild(btnDiv);
+    this.pocetniEkran.appendChild(btnDiv);
   }
 
   iscrtajUnosNovogKrstarenja(container) {
@@ -189,7 +198,7 @@ export class Agencija {
   }
 
   ucitajGlavniEditor(json) {
-    const editor = new EditorKrstarenja(json, this.glavniEditor);
+    const editor = new EditorKrstarenja(json, this.glavniEditor, this);
     this.pocetniEkran.innerHTML = "";
     editor.iscrtajEditorKrstarenja();
   }

@@ -4,14 +4,16 @@ using Agencija.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace backend.Migrations
 {
     [DbContext(typeof(AgencijaContext))]
-    partial class AgencijaContextModelSnapshot : ModelSnapshot
+    [Migration("20220110190419_V4")]
+    partial class V4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -378,7 +380,7 @@ namespace backend.Migrations
             modelBuilder.Entity("Agencija.Models.KrstariSpoj", b =>
                 {
                     b.HasOne("Agencija.Models.Krstarenje", "Krstarenje")
-                        .WithMany("KrstariSpojevi")
+                        .WithMany()
                         .HasForeignKey("KrstarenjeID");
 
                     b.HasOne("Agencija.Models.Putnik", "Putnik")
@@ -462,8 +464,6 @@ namespace backend.Migrations
                     b.Navigation("Aktivnosti");
 
                     b.Navigation("ClanoviPosade");
-
-                    b.Navigation("KrstariSpojevi");
                 });
 
             modelBuilder.Entity("Agencija.Models.Kruzer", b =>

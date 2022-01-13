@@ -18,10 +18,12 @@ namespace Agencija.Models
         [Required]
         public float Cena { get; set; }
 
+        [Required]
+        public float Honorar { get; set; }
+
         // ========== Veze ==========
 
         [JsonIgnore]
-        [Required]
         public Krstarenje Krstarenje { get; set; }
 
         public List<Putnik> Putinci { get; set; }

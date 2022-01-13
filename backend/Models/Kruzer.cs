@@ -20,16 +20,11 @@ namespace Agencija.Models
         public string NazivBroda { get; set; }
 
         [Required]
-        [Range(1, 200)]
-        public int BrojSoba { get; set; }
+        public int BrojSobaPoRedu { get; set; }
 
         [Required]
         public int BrojRedova { get; set; }
         
-        public int GodinaProizvodnje { get; set; }
-    
-        [MaxLength(30)]
-        public string Prevoznik { get; set; }
 
         // ========== Veze ==========
 
