@@ -9,6 +9,8 @@ export class PrikazRedova {
   }
 
   crtaj() {
+    this.prikaziSobe = new Array();
+
     for (let i = 0; i < this.brojRedova; i++) {
       let red = document.createElement("div");
       red.className = "prikazSobaRed";
@@ -23,8 +25,15 @@ export class PrikazRedova {
           prikazSobeContainer,
           this.sobe[i * this.brojSobaPoRedu + j]
         );
+
+        this.prikaziSobe.push(prikazSobe);
+
         prikazSobe.crtaj();
       }
     }
+  }
+
+  azurirajPrkazSobe(iSobe) {
+    this.prikaziSobe[iSobe].azurirajPrikaz();
   }
 }

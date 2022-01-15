@@ -12,11 +12,9 @@ export class PrikazObracuna {
     this.container.appendChild(naslov);
 
     //Forme
-    const forme = document.createElement("div");
-    forme.className = "unosi";
+    const forme = dodajNoviDiv(this.container, "unosi");
     this.crtajObracunZaPutnika(dodajNoviDiv(forme, "unos"));
     this.crtajObracunZaClanaPosade(dodajNoviDiv(forme, "unos"));
-    this.container.appendChild(forme);
   }
 
   crtajObracunZaPutnika(cont) {

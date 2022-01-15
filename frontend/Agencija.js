@@ -198,6 +198,8 @@ export class Agencija {
   }
 
   ucitajGlavniEditor(json) {
+    console.log(json);
+
     const editor = new EditorKrstarenja(json, this.glavniEditor, this);
     this.pocetniEkran.innerHTML = "";
     editor.iscrtajEditorKrstarenja();

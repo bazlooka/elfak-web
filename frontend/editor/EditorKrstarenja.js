@@ -61,8 +61,7 @@ export class EditorKrstarenja {
 
     const prikazAktivnosti = new PrikazAktivnosti(
       prikazAktivnostiDiv,
-      this.krstarenje.aktivnosti,
-      this.krstarenje.id
+      this.krstarenje
     );
     prikazAktivnosti.crtaj();
 

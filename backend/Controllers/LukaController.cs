@@ -92,7 +92,7 @@ namespace Agencija.Controllers
                 await Context.Luke.Select(p => 
                     new {
                         ID = p.ID,
-                        Naziv = $"[{p.Oznaka}] {p.Naziv} - {p.Grad}"
+                        Naziv = $"[ {p.Oznaka} ] {p.Naziv} - {p.Grad}"
                     }).ToListAsync()
             );
         } 

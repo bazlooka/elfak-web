@@ -5,14 +5,14 @@ export class PrikazSobe {
   }
 
   crtaj() {
-    let brojSobe = document.createElement("div");
-    brojSobe.innerHTML = "<b>" + this.soba.broj + "<b>";
+    let brojSobe = document.createElement("b");
+    brojSobe.innerHTML = this.soba.broj;
     this.container.appendChild(brojSobe);
 
-    let popunjenostSobe = document.createElement("div");
-    popunjenostSobe.innerHTML =
-      this.soba.krstariSpoj.length + "/" + this.soba.kapacitet;
-    this.container.appendChild(popunjenostSobe);
+    this.popunjenostSobe = document.createElement("div");
+    this.container.appendChild(this.popunjenostSobe);
+
+    this.azurirajPrikaz();
 
     this.container.onclick = () => this.prikaziInformacije();
   }
@@ -23,8 +23,7 @@ export class PrikazSobe {
       this.soba.broj +
       "\nCena noćenja: " +
       this.soba.cenaNocenja +
-      " din." +
-      "\nPopunjenost: " +
+      " din.\nPopunjenost: " +
       this.soba.krstariSpoj.length +
       "/" +
       this.soba.kapacitet +
@@ -32,16 +31,21 @@ export class PrikazSobe {
 
     this.soba.krstariSpoj.forEach((p) => {
       msg +=
-        "\n[" +
-        p.putnik.brojPasosa +
-        "] " +
-        p.putnik.ime +
-        " " +
-        p.putnik.prezime +
-        " - " +
+        `\n[ ${p.putnik.brojPasosa} ] ${p.putnik.ime} ${p.putnik.prezime} - ` +
         new Date(p.putnik.datumRodjenja).toLocaleDateString("sr-RS");
     });
 
     alert(msg);
+  }
+
+  azurirajPrikaz() {
+    this.popunjenostSobe.innerHTML =
+      this.soba.krstariSpoj.length + "/" + this.soba.kapacitet;
+
+    if (this.soba.krstariSpoj.length == this.soba.kapacitet) {
+      this.container.style.backgroundColor = "LightGray";
+    } else if (this.soba.krstariSpoj.length > this.soba.kapacitet) {
+      this.container.style.backgroundColor = "LightCoral";
+    }
   }
 }

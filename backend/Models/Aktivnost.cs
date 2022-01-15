@@ -25,9 +25,17 @@ namespace Agencija.Models
 
         [JsonIgnore]
         public Krstarenje Krstarenje { get; set; }
+        
+        [NotMapped]
+        public List<int> PutinciId { get; set; }
 
+        [JsonIgnore]
         public List<Putnik> Putinci { get; set; }
+        
+        [NotMapped]
+        public List<int> ClanoviPosadeId { get; set; }
 
+        [JsonIgnore]
         public List<ClanPosade> ClanoviPosade { get; set; }
     }
 }

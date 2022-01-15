@@ -1,10 +1,16 @@
-import { dodajNoviDiv, dodajNoviP, dodajNoviInput } from "../helper.js";
+import {
+  dodajNoviDiv,
+  dodajNoviP,
+  dodajNoviInput,
+  ADR_SERVERA,
+} from "../helper.js";
+import { EditorAktivnosti } from "./EditorAktivnosti.js";
 
 export class PrikazAktivnosti {
-  constructor(container, aktivnosti, idKrstarenja) {
+  constructor(container, krstarenje) {
     this.container = container;
-    this.aktivnosti = aktivnosti;
-    this.idKrstarenja = idKrstarenja;
+    this.aktivnosti = krstarenje.aktivnosti;
+    this.krstarenje = krstarenje;
   }
 
   crtaj() {
@@ -12,130 +18,45 @@ export class PrikazAktivnosti {
     naslov.innerHTML = "Aktivnosti";
     this.container.appendChild(naslov);
 
-    const divSelectAktivnost = document.createElement("div");
-    divSelectAktivnost.className = "selektujAktivnost";
-    this.container.appendChild(divSelectAktivnost);
-
+    const divSelectAktivnost = dodajNoviDiv(
+      this.container,
+      "selektujAktivnost"
+    );
     const aktivnosti = document.createElement("select");
+    aktivnosti.className = "aktivnostiSelect";
     divSelectAktivnost.appendChild(aktivnosti);
 
-    const cena = dodajNoviP(divSelectAktivnost, "boldiraniTekst");
-    cena.innerHTML = "Cena: 400 din.";
-    const zarada = dodajNoviP(divSelectAktivnost, "boldiraniTekst");
-    zarada.innerHTML = "Zarada: 800 din.";
+    const select = this.container.querySelector(".aktivnostiSelect");
+    this.aktivnosti.forEach((el, i) => {
+      let op = document.createElement("option");
+      op.value = i;
+      op.innerHTML = el.naziv;
+      select.appendChild(op);
+    });
 
-    const tabele = document.createElement("div");
-    tabele.className = "unosi";
+    select.onclick = () => {
+      this.editorAktivnosti.crtaj(this.aktivnosti[select.value]);
+    };
 
-    this.crtajListuPutnika(tabele);
-    this.crtajListuClanovaPosade(tabele);
+    const editorAktivnostiDiv = dodajNoviDiv(
+      this.container,
+      "editorAktivnosti"
+    );
+    this.editorAktivnosti = new EditorAktivnosti(
+      editorAktivnostiDiv,
+      this.krstarenje
+    );
 
-    this.container.appendChild(tabele);
-
-    //Forme
-
-    const forme = document.createElement("div");
-    forme.className = "unosi";
-    this.container.appendChild(forme);
-
-    this.crtajDodavanjePutnika(forme);
-    this.crtajDodavanjeClanovaPosade(forme);
+    this.editorAktivnosti.crtaj(this.aktivnosti[0]);
 
     this.crtajUnosAktivnosti(dodajNoviDiv(this.container, "unosi"));
   }
-
-  crtajListuPutnika(cont) {
-    let kontPrikaz = document.createElement("div");
-    kontPrikaz.className = "Prikaz";
-    cont.appendChild(kontPrikaz);
-
-    const naslov = dodajNoviP(kontPrikaz, "boldiraniTekst");
-    naslov.innerHTML = "Putnici";
-
-    var tabela = document.createElement("table");
-    tabela.className = "tabela";
-    kontPrikaz.appendChild(tabela);
-
-    var tabelahead = document.createElement("thead");
-    tabela.appendChild(tabelahead);
-
-    var tr = document.createElement("tr");
-    tabelahead.appendChild(tr);
-
-    var tabelaBody = document.createElement("tbody");
-    tabelaBody.className = "TabelaPodaci";
-    tabela.appendChild(tabelaBody);
-
-    let th;
-    var zag = ["Broj pasoša", "Ime", "Prezime", "Pol", "Datum rođenja"];
-    zag.forEach((el) => {
-      th = document.createElement("th");
-      th.innerHTML = el;
-      tr.appendChild(th);
-    });
-
-    //Test
-
-    for (let i = 0; i < 5; i++) {
-      var tr = document.createElement("tr");
-      tabela.appendChild(tr);
-
-      zag.forEach((el) => {
-        var el = document.createElement("td");
-        el.innerHTML = "test";
-        tr.appendChild(el);
-      });
-    }
-  }
-
-  crtajListuClanovaPosade(cont) {
-    let kontPrikaz = document.createElement("div");
-    kontPrikaz.className = "Prikaz";
-    cont.appendChild(kontPrikaz);
-
-    const naslov = dodajNoviP(kontPrikaz, "boldiraniTekst");
-    naslov.innerHTML = "Članovi posade";
-
-    var tabela = document.createElement("table");
-    tabela.className = "tabela";
-    kontPrikaz.appendChild(tabela);
-
-    var tabelahead = document.createElement("thead");
-    tabela.appendChild(tabelahead);
-
-    var tr = document.createElement("tr");
-    tabelahead.appendChild(tr);
-
-    var tabelaBody = document.createElement("tbody");
-    tabelaBody.className = "TabelaPodaci";
-    tabela.appendChild(tabelaBody);
-
-    let th;
-    var zag = ["Broj licence", "Ime", "Prezime", "Čin"];
-    zag.forEach((el) => {
-      th = document.createElement("th");
-      th.innerHTML = el;
-      tr.appendChild(th);
-    });
-
-    //Test
-
-    for (let i = 0; i < 5; i++) {
-      var tr = document.createElement("tr");
-      tabela.appendChild(tr);
-
-      zag.forEach((el) => {
-        var el = document.createElement("td");
-        el.innerHTML = "test";
-        tr.appendChild(el);
-      });
-    }
-  }
+  //  DODAVANJE AKTIVNOSTI
 
   crtajUnosAktivnosti(cont) {
     //Forma za dodavanje aktivnosti
 
-    const dodaj = dodajNoviDiv(cont);
+    const dodaj = dodajNoviDiv(cont, "unos");
 
     let a = dodajNoviP(dodaj, "boldiraniTekst");
     a.innerHTML = "Dodaj aktivnost:";
@@ -147,81 +68,61 @@ export class PrikazAktivnosti {
     let btn = document.createElement("button");
     btn.innerHTML = "Dodaj";
     btn.className = "dugme";
-    //btn.onclick = () => dodajNovuLuku(dodaj);
+    btn.onclick = () => this.dodajNovuAktivnost(dodaj);
     dodaj.appendChild(btn);
 
     cont.appendChild(dodaj);
   }
 
-  crtajDodavanjePutnika(cont) {
-    //Forma za dodavanje putnika
+  dodajNovuAktivnost(cont) {
+    const naziv = cont.querySelector(".imeAktivnost").value;
+    if (naziv === null || naziv === undefined || naziv == "") {
+      alert("Morate da uneste naziv aktivnosti!");
+      return;
+    }
 
-    const dodaj = dodajNoviDiv(cont, "unos");
+    const cena = cont.querySelector(".cenaAktivnosti").value;
+    if (cena === null || cena === undefined || cena == "") {
+      alert("Morate da uneste cenu aktivnosti!");
+      return;
+    }
 
-    let a = dodajNoviP(dodaj, "boldiraniTekst");
-    a.innerHTML = "Dodaj putnika:";
+    const honorar = cont.querySelector(".zaradaAktivnosti").value;
+    if (honorar === null || honorar === undefined || honorar == "") {
+      alert("Morate da uneste honorar aktivnosti!");
+      return;
+    }
 
-    const izborDodajPutnika = document.createElement("select");
-    dodaj.appendChild(izborDodajPutnika);
+    if (this.aktivnosti.find((el) => el.naziv == naziv) != undefined) {
+      alert("Aktivnost sa tim imenom već postoji na krstarenju!");
+      return;
+    }
 
-    let btn = document.createElement("button");
-    btn.innerHTML = "Dodaj";
-    btn.className = "dugme";
-    //btn.onclick = () => dodajNovuLuku(dodaj);
-    dodaj.appendChild(btn);
+    fetch(
+      ADR_SERVERA +
+        `Aktivnost/Dodaj/${this.krstarenje.id}/${naziv}/${cena}/${honorar}`,
+      {
+        method: "POST",
+      }
+    ).then((resp) => {
+      if (resp.ok) {
+        resp.json().then((json) => {
+          this.aktivnosti.push(json);
 
-    //Forma za brisanje putnika
+          const select = this.container.querySelector(".aktivnostiSelect");
+          const op = document.createElement("option");
+          op.value = this.aktivnosti.length - 1;
+          op.innerHTML = json.naziv;
+          select.appendChild(op);
+          select.value = this.aktivnosti.length - 1;
 
-    const obrisi = dodajNoviDiv(cont, "unos");
+          this.editorAktivnosti.crtaj(json);
 
-    a = dodajNoviP(obrisi, "boldiraniTekst");
-    a.innerHTML = "Obriši putnika:";
-
-    const izborObrisiPutnika = document.createElement("select");
-    obrisi.appendChild(izborObrisiPutnika);
-
-    btn = document.createElement("button");
-    btn.innerHTML = "Obriši";
-    btn.className = "dugme";
-    //btn.onclick = () => obrisiLuku(obrisi);
-    obrisi.appendChild(btn);
-
-    cont.appendChild(dodaj);
-    cont.appendChild(obrisi);
-  }
-
-  crtajDodavanjeClanovaPosade(cont) {
-    const dodaj = dodajNoviDiv(cont, "unos");
-
-    let a = dodajNoviP(dodaj, "boldiraniTekst");
-    a.innerHTML = "Dodaj člana posade:";
-
-    const izborDodajPutnika = document.createElement("select");
-    dodaj.appendChild(izborDodajPutnika);
-
-    let btn = document.createElement("button");
-    btn.innerHTML = "Dodaj";
-    btn.className = "dugme";
-    //btn.onclick = () => dodajNovuLuku(dodaj);
-    dodaj.appendChild(btn);
-
-    //Forma za brisanje putnika
-
-    const obrisi = dodajNoviDiv(cont, "unos");
-
-    a = dodajNoviP(obrisi, "boldiraniTekst");
-    a.innerHTML = "Obriši člana posade:";
-
-    const izborObrisiPutnika = document.createElement("select");
-    obrisi.appendChild(izborObrisiPutnika);
-
-    btn = document.createElement("button");
-    btn.innerHTML = "Obriši";
-    btn.className = "dugme";
-    //btn.onclick = () => obrisiLuku(obrisi);
-    obrisi.appendChild(btn);
-
-    cont.appendChild(dodaj);
-    cont.appendChild(obrisi);
+          alert("Aktivnost je uspešno dodata!");
+        });
+      } else {
+        resp.text().then((msg) => alert(msg));
+      }
+    });
   }
 }

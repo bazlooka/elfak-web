@@ -10,10 +10,10 @@ export function iscrtajUnosClanovaPosada(container) {
   let a = dodajNoviP(dodaj, "boldiraniTekst");
   a.innerHTML = "Dodaj člana posade:";
 
-  dodajNoviInput(dodaj, "Broj licence*:", "vrsta");
-  dodajNoviInput(dodaj, "Ime*:", "vrsta");
-  dodajNoviInput(dodaj, "Prezime*:", "vrsta");
-  dodajNoviInput(dodaj, "Čin:", "vrsta");
+  dodajNoviInput(dodaj, "Broj licence*:", "brLicenceClanaPosade");
+  dodajNoviInput(dodaj, "Ime*:", "imeClanaPosade");
+  dodajNoviInput(dodaj, "Prezime*:", "prezimeClanaPosade");
+  dodajNoviInput(dodaj, "Čin:", "cinClanaPosade");
 
   let btn = document.createElement("button");
   btn.innerHTML = "Dodaj";
@@ -66,16 +66,12 @@ function obrisiClanaPosade(container) {
 
 function ucitajPodatkeIzInputa(kontejner) {
   let cp = new ClanPosade();
-  cp.brojLicence = kontejner.querySelector(".brPasosaPutnika").value;
-  cp.ime = kontejner.querySelector(".imePutnika").value;
-  cp.prezime = kontejner.querySelector(".prezimePutnika").value;
-  cp.cin = kontejner.querySelector("input[name='noviPutnikPol']:checked").value;
+  cp.brLicence = kontejner.querySelector(".brLicenceClanaPosade").value;
+  cp.ime = kontejner.querySelector(".imeClanaPosade").value;
+  cp.prezime = kontejner.querySelector(".prezimeClanaPosade").value;
+  cp.cin = kontejner.querySelector(".cinClanaPosade").value;
 
-  if (
-    cp.brojLicence == undefined ||
-    cp.brojLicence < 1 ||
-    cp.brLicence > 10000
-  ) {
+  if (cp.brLicence == undefined || cp.brLicence < 1 || cp.brLicence > 10000) {
     alert("Broj licence nije pravilno unet!");
     return;
   }
@@ -87,7 +83,7 @@ function ucitajPodatkeIzInputa(kontejner) {
     alert("Prezime člana posade nije pravilno uneto!");
     return;
   }
-  if (p.cin != undefined && p.cin.length > 30) {
+  if (cp.cin != undefined && cp.cin.length > 30) {
     alert("Čin člana posade je predugačak!");
     return;
   }

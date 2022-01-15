@@ -28,8 +28,10 @@ namespace Agencija.Models
 
         // ========== Veze ==========
 
+        [JsonIgnore]
         public List<AngazovanSpoj> AngazovanNa { get; set; }
 
+        [JsonIgnore]
         public List<Aktivnost> Aktivnosti { get; set; }
     }
 }
