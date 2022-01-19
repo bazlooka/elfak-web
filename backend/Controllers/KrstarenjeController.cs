@@ -83,7 +83,7 @@ namespace Agencija.Controllers
 
         [Route("Kreiraj/{idKruzera}")]
         [HttpPost]
-        public async Task<ActionResult> PreuzmiKrstarenje([FromBody] Krstarenje krstarenje, int idKruzera)
+        public async Task<ActionResult> KreirajKrstarenje([FromBody] Krstarenje krstarenje, int idKruzera)
         {
             try
             {
