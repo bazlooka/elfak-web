@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
 using Agencija.Models;
@@ -28,14 +26,14 @@ namespace Agencija.Controllers
             try
             {
                 var uBazi = Context.ClanoviPosade.Where(p => p.BrLicence == clanPosade.BrLicence);
-                if(uBazi.Count() > 0)
+                if (uBazi.Count() > 0)
                     return BadRequest("Član posade kojeg pokušavate da kreirate već postoji!");
 
                 Context.ClanoviPosade.Add(clanPosade);
                 await Context.SaveChangesAsync();
-                return Ok($"Ćlan posade {clanPosade.Ime} {clanPosade.Prezime} je uspešno dodat!");      
+                return Ok($"Ćlan posade {clanPosade.Ime} {clanPosade.Prezime} je uspešno dodat!");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
@@ -50,43 +48,42 @@ namespace Agencija.Controllers
                 var clanPosadeUBazi = await Context.ClanoviPosade.Where(p => p.BrLicence == clanPosade.BrLicence)
                                             .FirstOrDefaultAsync();
 
-                if(clanPosadeUBazi == null)
+                if (clanPosadeUBazi == null)
                     return BadRequest("Člana posade kojeg pokušavate da izmenite ne postoji!");
 
                 clanPosadeUBazi.Ime = clanPosade.Ime;
                 clanPosadeUBazi.Prezime = clanPosade.Prezime;
                 clanPosadeUBazi.Cin = clanPosade.Cin;
                 await Context.SaveChangesAsync();
-                return Ok($"Član posade {clanPosadeUBazi.Ime} {clanPosadeUBazi.Prezime} je uspešno izmenjen!");      
+                return Ok($"Član posade {clanPosadeUBazi.Ime} {clanPosadeUBazi.Prezime} je uspešno izmenjen!");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest("Došlo je do greške: " + e.Message);
             }
         }
-
-        [Route("PreuzmiSve")]
-        [HttpGet]
-        public async Task<ActionResult> PreuzmiClanovePosade()
-        {
-            var clanoviPosade = await Context.ClanoviPosade.ToListAsync();
-            return Ok(clanoviPosade);
-         }
 
         [Route("Obrisi/{brLicence}")]
         [HttpDelete]
         public async Task<ActionResult> ObrisiClanaPosade(int brLicence)
         {
-            var clanPosade = await Context.ClanoviPosade.Where(p => p.BrLicence == brLicence).FirstOrDefaultAsync();
-            if(clanPosade == null)
-                return BadRequest("Član posade kojeg želite da obrišete ne postoji!");
+            try
+            {
+                var clanPosade = await Context.ClanoviPosade.Where(p => p.BrLicence == brLicence).FirstOrDefaultAsync();
+                if (clanPosade == null)
+                    return BadRequest("Član posade kojeg želite da obrišete ne postoji!");
 
-            string ime = clanPosade.Ime;
-            string prezime = clanPosade.Prezime;
+                string ime = clanPosade.Ime;
+                string prezime = clanPosade.Prezime;
 
-            Context.ClanoviPosade.Remove(clanPosade);
-            await Context.SaveChangesAsync();
-            return Ok($"Putnik {ime} {prezime} je uspešno obrisan!");
+                Context.ClanoviPosade.Remove(clanPosade);
+                await Context.SaveChangesAsync();
+                return Ok($"Putnik {ime} {prezime} je uspešno obrisan!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Došlo je do greške: " + e.Message);
+            }
         }
     }
 }

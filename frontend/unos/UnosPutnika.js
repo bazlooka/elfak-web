@@ -104,7 +104,7 @@ function ucitajPodatkeIzInputa(kontejner) {
   p.ime = kontejner.querySelector(".imePutnika").value;
   p.prezime = kontejner.querySelector(".prezimePutnika").value;
   let polCB = kontejner.querySelector("input[name='noviPutnikPol']:checked");
-  p.datumRodnjenja = kontejner.querySelector(".datumRodjenjaPutnika").value;
+  p.datumRodjenja = kontejner.querySelector(".datumRodjenjaPutnika").value;
 
   if (polCB == undefined) {
     alert("Morate izabrati pol putnika!");
@@ -129,5 +129,8 @@ function ucitajPodatkeIzInputa(kontejner) {
     alert("Morate uneti prezime putnika!");
     return;
   }
+
+  console.log(p);
+
   return p;
 }

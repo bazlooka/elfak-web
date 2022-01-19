@@ -180,26 +180,20 @@ export class Agencija {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(krstarenje),
-    })
-      .then((resp) => {
-        if (resp.ok) {
-          return resp.json();
-        } else {
-          return resp.text();
-        }
-      })
-      .then((msg) => {
-        if (typeof msg == "string") {
-          alert(msg);
-        } else {
-          this.ucitajGlavniEditor(msg);
-        }
-      });
+    }).then((resp) => {
+      if (resp.ok) {
+        resp.json().then((json) => {
+          this.ucitajGlavniEditor(json);
+        });
+      } else {
+        resp.text().then((text) => {
+          alert(text);
+        });
+      }
+    });
   }
 
   ucitajGlavniEditor(json) {
-    console.log(json);
-
     const editor = new EditorKrstarenja(json, this.glavniEditor, this);
     this.pocetniEkran.innerHTML = "";
     editor.iscrtajEditorKrstarenja();

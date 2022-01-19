@@ -21,6 +21,10 @@ h3 {
   margin-top: 20pt;
 }
 
+h2 {
+  margin-top: 40pt;
+}
+
 p,
 label {
   margin: 6pt 0 2pt 0;
@@ -46,12 +50,17 @@ button:hover {
 }
 
 table {
-  margin: 8pt 16pt 8pt 16pt;
+  margin: 8pt 20pt 8pt 20pt;
+}
+
+table * {
+  text-align: center;
+  padding: 4pt 6pt 4pt 6pt;
 }
 
 th {
-  border-bottom: solid;
-  border-width: 1px;
+  border-bottom: ridge;
+  border-width: 2px;
 }
 
 .pocetniEkran {
@@ -137,6 +146,7 @@ th {
   background-size: contain;
   width: var(--sirinaBroda);
   height: calc(var(--sirinaBroda) * 0.285);
+  margin: auto;
 }
 
 .prikazSobaContainer {
@@ -193,6 +203,14 @@ th {
 .selektujAktivnost * {
   display: block;
   margin: auto;
+}
+
+.editorAktivnosti p {
+  text-align: center;
+}
+
+.trenutnoKrstarenje {
+  min-height: 20em;
 }
 
 /* Unosi podataka */
@@ -261,6 +279,13 @@ th {
   :root {
     --sirinaBroda: 600pt;
   }
+  .prikazLukaElement {
+    width: 50pt;
+  }
+  .prikazLukaOblik,
+  .prikazLukaStrelica {
+    width: 45pt;
+  }
   .prikazSobe {
     font-size: 10pt;
   }
@@ -269,6 +294,13 @@ th {
 @media only screen and (max-width: 650pt) {
   :root {
     --sirinaBroda: 400pt;
+  }
+  .prikazLukaElement {
+    width: 40pt;
+  }
+  .prikazLukaOblik,
+  .prikazLukaStrelica {
+    width: 30pt;
   }
   .prikazSobe {
     font-size: 6pt;
@@ -280,6 +312,23 @@ th {
     --sirinaBroda: 300pt;
   }
   .prikazSobe {
-    font-size: 5pt;
+    font-size: 8pt;
+  }
+
+  .prikazBrodaContainer {
+    flex-wrap: wrap;
+    background-image: unset;
+    width: 100%;
+    height: auto;
+  }
+
+  .prikazSobaContainer {
+    width: 100%;
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+
+  .prikazSobaRed {
+    margin-top: 10pt;
   }
 }

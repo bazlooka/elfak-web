@@ -2,11 +2,11 @@ export class Putnik {
   constructor(json) {
     if (json != undefined) {
       this.id = json.id;
-      this.brojPasosa = json.BrojPasosa;
-      this.ime = json.Ime;
-      this.prezime = json.Prezime;
-      this.pol = json.Pol;
-      this.datumRodjenja = json.DatumRodjenja;
+      this.brojPasosa = json.brojPasosa;
+      this.ime = json.ime;
+      this.prezime = json.prezime;
+      this.pol = json.pol;
+      this.datumRodjenja = json.datumRodjenja;
     }
   }
 }

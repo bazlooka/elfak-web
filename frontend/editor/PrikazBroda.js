@@ -174,6 +174,7 @@ export class PrikazBroda {
     btnBrisiPutnika.innerHTML = "Obriši";
     btnBrisiPutnika.className = "dugme";
     btnBrisiPutnika.onclick = () => this.obrisiPutnika(cont);
+
     forma.appendChild(btnBrisiPutnika);
   }
 
@@ -331,7 +332,7 @@ export class PrikazBroda {
           this.crtajBrojClanovaPosade();
           this.unesiListuClanovaPosade();
         });
-        alert("Putnik je uspešno dodat!");
+        alert("Član posade je uspešno dodat!");
       } else {
         resp.text().then((msg) => alert(msg));
       }

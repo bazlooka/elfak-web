@@ -27,3 +27,21 @@ export function dodajNoviElement(kontejner, klasa, tip) {
 export function prikaziGresku(poruka) {
   alert("Greška: " + poruka);
 }
+
+export function obrisiIdIzListe(cont, id) {
+  let zaBrisanje;
+  cont.childNodes.forEach((p) => {
+    if (p.value == id) zaBrisanje = p;
+  });
+  cont.removeChild(zaBrisanje);
+  if (cont.innerHTML == "") cont.disabled = true;
+  else cont.disabled = false;
+}
+
+export function dodajUnosUListu(lista, unos, value) {
+  let op = document.createElement("option");
+  op.value = value;
+  op.innerHTML = unos;
+  lista.appendChild(op);
+  if (lista.innerHTML != "") lista.disabled = false;
+}
